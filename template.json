@@ -1,0 +1,19 @@
+{
+  // Defaults || Project Data
+  "name": "cloud-native-internal", // additionally used as directory name when scaffolding out of this repo
+  "description": "project for testing pollinate with merge",
+  "organization": "howardroark",
+  "author": "Andy Edwards",
+
+  // Pollinate Instructions
+  "parse": [
+    "PROJECT-package.json"
+  ],
+  "merge": [
+    // Package.json externally managed via MRM as per Company Design Guidelines
+    ["package.json", "PROJECT-package.json"]
+  ],
+  "discard": [
+    "PROJECT-package.json"
+  ]
+}
