@@ -37,8 +37,8 @@ fastify
 	.register(require('fastify-redis'), {client: redis})
 	.register(require('fastify-caching'), {cache: abcache})
 	.register(require('fastify-server-session'), {
-		secretKey: config.sessionSecret,
-		sessionMaxAge: 60000
+		secretKey: config.session.secret,
+		sessionMaxAge: config.session.maxAge
 	})
 	.register(require('fastify-sensible'))
 	.register(require('fastify-blipp'))
