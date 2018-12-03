@@ -4,7 +4,7 @@ This is one of several repositories used for architecting **Cloud Native** Appli
 
 This is the **Internal** template, and as such is expected to not recieve traffic external to the cloud cluster.
 
-%~%
+%~ -3%
 
 ## Key Features
 
@@ -21,10 +21,10 @@ This section has a quick look at the features available in **Cloud Native: Inter
 ]
 ```
 
-%~%
+%~ -3%
 
 ## Table Of Contents
 
 %TOC%
 
-%~%
+%~ -3%
