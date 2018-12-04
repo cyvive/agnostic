@@ -6,23 +6,6 @@ This is the **Internal** template, and as such is expected to not recieve traffi
 
 %~ -3%
 
-## Key Features
-
-This section has a quick look at the features available in **Cloud Native: Internal** and how they help a cloud native development process.
-
-```table
-[
-	["Feature", "Description", "Advantages"],
-	[
-		"Test Anything Protocol",
-		"100% Unit Test Coverage",
-		"Performance and speed"
-	]
-]
-```
-
-%~ -3%
-
 ## Table Of Contents
 
 %TOC%

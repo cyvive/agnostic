@@ -52,7 +52,7 @@ At this time, provided the [Installing](#Installing) steps have been completed t
 
 All operation past at this point is controlled via [MicroGen](https://github.com/busterc/microgen) with the respective templates available in the [./microgen](./microgen) directory with the following starting structure:
 
-%TREE documentary%
+%TREE microgen%
 
 Execution is as follows:
 
