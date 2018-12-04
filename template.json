@@ -11,6 +11,12 @@
 		// Package.json externally managed via MRM as per Company Design Guidelines
 		["package.json", "PROJECT-package.json"]
 	],
-	"discard": ["PROJECT-package.json", "node_modules"],
+	"discard": [
+		".documentary",
+		".nyc_output",
+		"PROJECT-package.json",
+		"README.md",
+		"node_modules"
+	],
 	"complete": "git init {{ name }}"
 }

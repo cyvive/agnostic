@@ -11,5 +11,6 @@ Thumbs.db
 coverage.lcov
 node_modules/
 python_modules/
-config/development.json
+config/development.js
+config/production.js
 scratchpad*

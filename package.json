@@ -132,10 +132,15 @@
 			],
 			"*.{spec,sanity,api}.js": [
 				"nyc --per-file --check-coverage --branches=50 --functions=50 --lines=90 --statements=50 run-tests"
+			],
+			"documentary/**/*.md": [
+				"redrun doc",
+				"git add README.md"
 			]
 		},
 		"ignore": [
-			"CHANGELOG.md"
+			"CHANGELOG.md",
+			"microgen/**"
 		]
 	},
 	"xo": {

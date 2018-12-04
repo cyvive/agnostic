@@ -25,6 +25,8 @@ This is the **Internal** template, and as such is expected to not recieve traffi
   - [Serialization Aware](#serialization-aware)
   - [Distributed Authentication](#distributed-authentication)
   - [Distributed Policy Management](#distributed-policy-management)
+  - [Just Enough Testing](#just-enough-testing)
+  - [Automatic JSON Schema generation](#automatic-json-schema-generation)
 - [Development](#development)
   - [Prerequisites](#prerequisites)
   - [Installing](#installing)
@@ -96,6 +98,10 @@ All operation past at this point is controlled via [MicroGen](https://github.com
 
 ```m
 microgen
+├── core.js
+├── core.spec.js
+├── shell.js
+└── shell.schema.js
 ```
 
 Execution is as follows:
@@ -151,7 +157,7 @@ Its also worth considering that for most applications NoSQL dedicated databases 
 
 You are also welcome to add the relevant NoSQL interface, or remove this one entirely from your cloned local repository template.
 
-**Note**: PostgreSQL is included by default, other adapters will need to be managed externally
+**Note**: PostgreSQL is included by default, other adapters will need to be managed externally **Note**: [Knex Migrate](https://github.com/sheerun/knex-migrate) is strongly recommended for managing database migrations and schema long-term.
 
 ### Fastify
 
@@ -201,6 +207,20 @@ Authentication Strategies Provided in recommended order:
 We assume that [Distributed Authentication](#distributed-authentication) has been followed, as such each service can be mapped to a group and user for policy enforcement.
 
 [Casbin](https://casbin.org/en/) provides policy enforecment with the storage of policies handled by Redis (TODO) hooked round pub-sub for update tracking.
+
+### Just Enough Testing
+
+**Functional Core / Imperative Shell** allows for 99%+ unit testing out of the box. However when working with Event Driven MicroServices there is no guarantee when they will be executed next. Or that there external interactions and schemas will be contractually consistent on their next execution. As such there are 3 types of tests available to be executed in different scenarios.
+
+- **Spec**: Standard unit test applied to all **core** logic.
+- **API**: Are lightweight external validation appoaches to validate the data revieved by external services is still structurally sound for this microservice
+- **Sanity**: Production initialization tests to ensure the microservice has everything it needs to operate correctly.
+
+All of these are designed to fail fast
+
+### Automatic JSON Schema generation
+
+[To JSON Schema](https://github.com/ruzicka/to-json-schema) allows the developer to provide just the JSON data payload and it will generate the appropriate JSON Schema from it.
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-3.svg?sanitize=true"></a></p>
 
