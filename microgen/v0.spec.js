@@ -23,8 +23,8 @@ describe('pipeline', async t => {
 	}
 	const dataWatcher = jsonPatch.observe(data)
 
-	await t.test('init', async t => {
-		data = o.__get__('init')(data)
+	await t.test('sessionConstruction', async t => {
+		data = o.__get__('sessionConstruction')(data)
 		const delta = jsonPatch.generate(dataWatcher)
 		t.deepEqual(
 			delta.shift(),

@@ -12,21 +12,17 @@ const rfdc = require('rfdc')({proto: true})
 // Example of Adding another Shell Call
 const dbCart = require('^shell/db/cart')
 
-const pipeline = [
-	_init,
-	checkUserHasCart,
-	persistCartWithUser,
-	// Example of forking the pipe to event drive another process
-	// R.tap(dbCart.upsert),
-	_end
-]
+const pipelines = {}
+pipelines['1.0.0'] = [sessionConstruction, checkUserHasCart]
+pipelines['1.5.0'] = R.flatten(R.append([persistCartWithUser], pipelines['1.0.0']))
+
 
 const gotOptions = {
 	json: true,
 	headers: {}
 }
 
-function _init({request, _cache = {}, _out = {}, ..._passthrough}) {
+function sessionConstruction({request, _cache = {}, _out = {}, ..._passthrough}) {
 	// Example of rfdc (really fast deep clone) to assist with immutability
 	const session = deeps.get(request, 'session')
 	_cache.session = session ? rfdc(session) : {cart: {}}
@@ -105,13 +101,15 @@ async function persistCartWithUser({
 	}
 }
 
-function _end({request, _out, _cache}) {
+/*function _end({request, _out, _cache}) {
 	// Updating session is only necessary should cookies be used. Left in to help understand the flow
 	request.session = rfdc(_cache.session)
 	return rfdc(_out)
-}
+}*/
 
-module.exports = data =>
+module.exports = pipelines
+/*data =>
 	core
 		.pPipe(...pipeline)(data)
 		.catch(core.remotelog('error'))
+*/
