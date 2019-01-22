@@ -285,7 +285,8 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for the process for submitting pu
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/TayloredTechnology/${project}/tags).
+We use [SemVer](http://semver.org/) for versioning. The repository will have major version, minor version and bug fix version. The major version is a breaking change. A minor version is a update in functionality and bug fix is normal bug fixes.
+For the versions available, see the [tags on this repository](https://github.com/TayloredTechnology/${project}/tags).
 
 ## Authors
 
