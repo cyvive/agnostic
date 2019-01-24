@@ -31,7 +31,7 @@ function _end({request, _out, _cache}) {
 
 //const pipeline = [_init, world, _end]
 const pipelines = {}
-const pipelines['v0'] = require('./v0')
+const pipelines['v0'] = require('./core')
 const pipeline = R.flatten([
 	_init,
 	pipelines[pipeMajorVersion][pipeVersion],
