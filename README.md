@@ -10,28 +10,35 @@ This is the **Internal** template, and as such is expected to not recieve traffi
 
 - [Table Of Contents](#table-of-contents)
 - [Deployment](#deployment)
-  - [Essentials](#essentials)
-  - [ENV's](#envs)
-  - [Installing](#installing)
-  - [Examples](#examples)
+  * [Essentials](#essentials)
+  * [ENV's](#envs)
+  * [Installing](#installing)
+  * [Post-Install Changes to Workflow](#post-install-changes-to-workflow)
+    * [NIX](#nix)
+    * [NIX from NPM](#nix-from-npm)
+    * [Git Submodules](#git-submodules)
+    * [Governance](#governance)
+    * [Commands](#commands)
+  * [Commits](#commits)
+  * [Examples](#examples)
 - [Features](#features)
-  - [Imperative Core / Functional Shell](#imperative-core--functional-shell)
-    - [InterFace](#interface)
-    - [Shell](#shell)
-    - [Core](#core)
-  - [Objection.js](#objectionjs)
-  - [Fastify](#fastify)
-  - [Redis Cache](#redis-cache)
-  - [Serialization Aware](#serialization-aware)
-  - [Distributed Authentication](#distributed-authentication)
-  - [Distributed Policy Management](#distributed-policy-management)
-  - [Just Enough Testing](#just-enough-testing)
-  - [Automatic JSON Schema generation](#automatic-json-schema-generation)
+  * [Imperative Core / Functional Shell](#imperative-core--functional-shell)
+    * [InterFace](#interface)
+    * [Shell](#shell)
+    * [Core](#core)
+  * [Objection.js](#objectionjs)
+  * [Fastify](#fastify)
+  * [Redis Cache](#redis-cache)
+  * [Serialization Aware](#serialization-aware)
+  * [Distributed Authentication](#distributed-authentication)
+  * [Distributed Policy Management](#distributed-policy-management)
+  * [Just Enough Testing](#just-enough-testing)
+  * [Automatic JSON Schema generation](#automatic-json-schema-generation)
 - [Development](#development)
-  - [Prerequisites](#prerequisites)
-  - [Installing](#installing)
+  * [Prerequisites](#prerequisites)
+  * [Installing](#installing)
 - [Running the tests](#running-the-tests)
-  - [And coding style tests](#and-coding-style-tests)
+  * [And coding style tests](#and-coding-style-tests)
 - [Built With](#built-with)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
@@ -41,6 +48,7 @@ This is the **Internal** template, and as such is expected to not recieve traffi
 - [Acknowledgments](#acknowledgments)
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-3.svg?sanitize=true"></a></p>
+
 
 ## Deployment
 
@@ -82,11 +90,53 @@ Full information about what cli parameters are available can be found in [templa
 
 It should also be noted that while **Pollinate** has the ability to preserve commit history into the cloned repositories this has been disabled as the expectation is post-cloning there would be heavy customizations incurred.
 
-Finally run the usual within the new project directory:
+### Post-Install Changes to Workflow
 
-```sh
-npm install
+This is a [Nodejs](https://nodejs.org/en/) project, and while its possible to run `npm install` its _strongly suggested_ to use the more integrated and immutable approach.
+
+#### NIX
+
+[Nix](https://nixos.org/nix/) is required to use this repository effectively.
+
 ```
+curl https://nixos.org/nix/install | sh
+```
+#### NIX from NPM
+
+[Nix From NPM](https://github.com/adnelson/nixfromnpm) is also required to bridge NIX and NPM.
+
+```
+git clone https://github.com/adnelson/nixfromnpm /tmp/nixfromnpm
+cd /tmp/nixfromnpm
+nix-env --install --attr nixfromnpm --file ./release.nix
+```
+#### Git Submodules
+
+Git Submodule should be checked out as well with:
+
+```
+git submodule update --remote
+```
+
+Your system now has the ability to reproduce the **exact** production used in the Docker Container, and all developers are guaranteed to have the same development environment.
+
+#### Governance
+
+**Fathomable** is used by default as a governance language and integration for development, image management and _Continuous Deployment (CD)_ types of activities.
+
+#### Commands
+
+Commands are available in the `./cmd` directory and should all be run from the root project directory i.e. `./cmd/update`. At this time running them in the cmd directory will break
+
+- **build**: creates a production and debug docker container.
+- **ci**: is what should be run in your continous integration builder / environment. It will use NIX to execute all the tests, verify code coverage, build and upload the container to your repository. This uses the `fathomable.yaml` file for governance of this process.
+- **dev**: creates a isolated development environment with necessary dependencies. Its a shallow version of `npm install --development` so development dependencies are flattened showing exactly what's required for development.
+- **prod**: creates the same production environment as is deployed in the container (slight difference in file structure as the `.container-ignore` file isn't passed for this environment)
+- **update**: for those coming from npm this is slightly different, as the environments are managed via a nix to npm bridge. To update package.json run this command and it will take care of the heavy lifting and run tests on the project.
+
+### Commits
+
+Enter the development environment and run `npm run commit` this will make use of conventionalcommits and all the necessary pre and post git hooks to maintain code quality
 
 If your organization is using MRM (strongly recommended as per above) this would be the appropriate moment to execute it and finish initializing the repository with your organization specific requirements.
 
@@ -97,11 +147,7 @@ At this time, provided the [Installing](#Installing) steps have been completed t
 All operation past at this point is controlled via [MicroGen](https://github.com/busterc/microgen) with the respective templates available in the [./microgen](./microgen) directory with the following starting structure:
 
 ```m
-microgen
-├── core.js
-├── core.spec.js
-├── shell.js
-└── shell.schema.js
+
 ```
 
 Execution is as follows:
@@ -111,6 +157,7 @@ microgen <template-file> [output-file]
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-3.svg?sanitize=true"></a></p>
+
 
 ## Features
 
@@ -206,7 +253,7 @@ Authentication Strategies Provided in recommended order:
 
 We assume that [Distributed Authentication](#distributed-authentication) has been followed, as such each service can be mapped to a group and user for policy enforcement.
 
-[Casbin](https://casbin.org/en/) provides policy enforecment with the storage of policies handled by Redis (TODO) hooked round pub-sub for update tracking.
+[Casbin](https://casbin.org/en/) provides policy enforcement with the storage of policies handled by Redis (TODO) hooked round pub-sub for update tracking.
 
 ### Just Enough Testing
 
@@ -223,6 +270,7 @@ All of these are designed to fail fast
 [To JSON Schema](https://github.com/ruzicka/to-json-schema) allows the developer to provide just the JSON data payload and it will generate the appropriate JSON Schema from it.
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-3.svg?sanitize=true"></a></p>
+
 
 ## Development
 
@@ -265,6 +313,7 @@ npm run lint
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-3.svg?sanitize=true"></a></p>
 
+
 ## Built With
 
 - [CodeCov](http://codecov.io/)
@@ -285,8 +334,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for the process for submitting pu
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. The repository will have major version, minor version and bug fix version. The major version is a breaking change. A minor version is a update in functionality and bug fix is normal bug fixes.
-For the versions available, see the [tags on this repository](https://github.com/TayloredTechnology/${project}/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/TayloredTechnology/${project}/tags).
 
 ## Authors
 

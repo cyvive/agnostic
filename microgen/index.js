@@ -1,21 +1,34 @@
 /* eslint unicorn/regex-shorthand: 0 */
-require('resquire')
-
 const R = require('rambdax')
 const core = require('^core/index')
 const rfdc = require('rfdc')({proto: true})
 const latestSemVer = require('latest-semver')
 const isSemVer = require('is-semver')
 
-let pipeVersion
 let pipeMajorVersion
+let pipeVersion
 
-function _init({request, _cache = {}, _out = {}, ..._passthrough}) {
-	pipeMajorVersion = 'v' + request.headers['accept-version'].substr(1)
+// Pipeline Definition / Import
+const pipelines = {}
+let pipeline = []
+/* eslint dot-notation: 0 */
+pipelines['v0'] = require('./v0')
+
+function _selectPipeline({request, pipelines, ..._passthrough}) {
+	pipeMajorVersion = 'v' + request.headers['accept-version'].split('.')[0]
 	pipeVersion = isSemVer(request.headers['accept-version'])
 		? request.headers['accept-version']
 		: latestSemVer(R.keys(pipelines[pipeMajorVersion]))
+	pipeline = R.flatten([_init, pipelines[pipeMajorVersion][pipeVersion], _end])
 
+	return {
+		request,
+		..._passthrough
+	}
+}
+
+function _init({request, _cache = {}, _out = {}, ..._passthrough}) {
+	// Init code shared through version
 	return {
 		request,
 		_out,
@@ -29,17 +42,10 @@ function _end({request, _out, _cache}) {
 	return rfdc(_out)
 }
 
-//const pipeline = [_init, world, _end]
-const pipelines = {}
-const pipelines['v0'] = require('./core')
-const pipeline = R.flatten([
-	_init,
-	pipelines[pipeMajorVersion][pipeVersion],
-	_end
-])
-
-//module.exports = pipeline
-module.exports = data =>
-	core
-		.pPipe(...pipeline)(data)
+module.exports = data => {
+	data.pipelines = pipelines
+	const passthrough = _selectPipeline(data)
+	return core
+		.pPipe(...pipeline)(passthrough)
 		.catch(core.remotelog('error'))
+}

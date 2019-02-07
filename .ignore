@@ -1,4 +1,5 @@
 node_modules/
+nix-node-packages/
 .git/
 package-lock.json
 python_modules

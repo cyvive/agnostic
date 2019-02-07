@@ -5,7 +5,6 @@ const deeps = require('deeps')
 const got = require('got')
 const result = require('await-result')
 const url = require('url-parse')
-const core = require('^core')
 const config = require('config')
 const rfdc = require('rfdc')({proto: true})
 
@@ -16,13 +15,17 @@ const pipelines = {}
 pipelines['0.0.1'] = [sessionConstruction, checkUserHasCart]
 //pipelines['1.5.0'] = R.flatten(R.append([persistCartWithUser], pipelines['1.0.0']))
 
-
 const gotOptions = {
 	json: true,
 	headers: {}
 }
 
-function sessionConstruction({request, _cache = {}, _out = {}, ..._passthrough}) {
+function sessionConstruction({
+	request,
+	_cache = {},
+	_out = {},
+	..._passthrough
+}) {
 	// Example of rfdc (really fast deep clone) to assist with immutability
 	const session = deeps.get(request, 'session')
 	_cache.session = session ? rfdc(session) : {cart: {}}
@@ -101,15 +104,4 @@ async function persistCartWithUser({
 	}
 }
 
-/*function _end({request, _out, _cache}) {
-	// Updating session is only necessary should cookies be used. Left in to help understand the flow
-	request.session = rfdc(_cache.session)
-	return rfdc(_out)
-}*/
-
 module.exports = pipelines
-/*data =>
-	core
-		.pPipe(...pipeline)(data)
-		.catch(core.remotelog('error'))
-*/

@@ -1,0 +1,5 @@
+{{ organization }}:
+  {{ name }}:
+    repository:
+      domain: {{ container_repository }}
+    version: 0.0.0

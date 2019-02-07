@@ -25,7 +25,7 @@ function reset(fileName) {
 
 module.exports = function(fileName) {
 	return {
-		describe: require('zora').test,
+		describe: require('muggle-test'),
 		isInstalled: require('is-installed'),
 		td: require('testdouble'),
 		otherName: otherName(fileName)

@@ -3,18 +3,20 @@
 	"name": "cloud-native-internal", // additionally used as directory name when scaffolding out of this repo
 	"description": "minimal framework for Cloud Native Applications to build on",
 	"organization": "Sotekton",
+	"container-repository": "hub.docker.io",
 	"author": "MySelf",
 
 	// Pollinate Instructions
-	"parse": ["PROJECT-package.json"],
+	"parse": ["pollinate/*"],
 	"merge": [
 		// Package.json externally managed via MRM as per Company Design Guidelines
-		["package.json", "PROJECT-package.json"]
+		["package.json", "pollinate/PROJECT-package.json"]
 	],
+	"move": [{"pollinate/fathomable.yaml": "fathomable.yaml"}],
 	"discard": [
 		".documentary",
 		".nyc_output",
-		"PROJECT-package.json",
+		"pollinate/*",
 		"README.md",
 		"node_modules"
 	],

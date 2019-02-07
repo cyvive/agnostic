@@ -1,0 +1,8 @@
+[submodule "nix-node-packages"]
+	path = nix-node-packages
+	url = git@github.com:sotekton/nix-node-packages.git
+	branch = master
+[submodule "cmd"]
+	path = cmd
+	url = git@github.com:sotekton/cloud-native-nix.git
+	branch = master

@@ -10,7 +10,16 @@ coverage.lcov
 Thumbs.db
 coverage.lcov
 node_modules/
+node_modules
 python_modules/
 config/development.js
 config/production.js
 scratchpad*
+package-lock.json
+result*
+default.nix
+container/
+coverage/
+.nixconfig/
+*.swp
+package-lock.json

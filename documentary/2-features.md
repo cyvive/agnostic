@@ -92,7 +92,7 @@ Authentication Strategies Provided in recommended order:
 
 We assume that [Distributed Authentication](#distributed-authentication) has been followed, as such each service can be mapped to a group and user for policy enforcement.
 
-[Casbin](https://casbin.org/en/) provides policy enforecment with the storage of policies handled by Redis (TODO) hooked round pub-sub for update tracking.
+[Casbin](https://casbin.org/en/) provides policy enforcement with the storage of policies handled by Redis (TODO) hooked round pub-sub for update tracking.
 
 ### Just Enough Testing
 

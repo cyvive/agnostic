@@ -1,0 +1,16 @@
+cmd/
+container/
+nix-node-packages/
+project.nix
+README.md
+.git/
+.editorconfig
+.gitignore
+.ignore
+.npmrc
+.prettierignore
+.prettierrc
+.replrc.js
+
+
+
