@@ -88,6 +88,7 @@
 		"nock": "10.0.6",
 		"nyc": "13.2.0",
 		"pino-pretty": "2.5.0",
+		"plop": "2.2.0",
 		"prettier": "1.16.4",
 		"rewire": "4.0.1",
 		"run-tests": "1.0.4",

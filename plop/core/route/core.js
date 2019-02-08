@@ -12,8 +12,11 @@ const rfdc = require('rfdc')({proto: true})
 const dbCart = require('^shell/db/cart')
 
 const pipelines = {}
-pipelines['0.0.1'] = [sessionConstruction, checkUserHasCart]
-//pipelines['1.5.0'] = R.flatten(R.append([persistCartWithUser], pipelines['1.0.0']))
+pipelines['{{ verMajor }}.{{ verMinor }}.0'] = [
+	sessionConstruction,
+	checkUserHasCart
+]
+//pipelines['{{ verMajor }}.{{ verMinor }}.0'] = R.flatten(R.append([persistCartWithUser], pipelines['{{ verMajor }}.{{ verMinor }}.0']))
 
 const gotOptions = {
 	json: true,

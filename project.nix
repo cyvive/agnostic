@@ -104,6 +104,7 @@ buildNodePackage {
       lint-staged_8-1-3
       eslint-plugin-unicorn_7-1-0
       fmtconv_1-0-7
+      plop_2-2-0
       faker_4-1-0
     ];
     meta = {

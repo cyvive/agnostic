@@ -7,7 +7,7 @@ const rfdc = require('rfdc')({proto: true})
 
 // Pipeline Definition / Import
 const pipelines = {}
-pipelines.v0 = require('./v0')
+pipelines.v{{ verMajor }} = require('./v{{ verMajor }}')
 
 function _init({request, _cache = {}, _out = {}, ..._passthrough}) {
 	// Init code shared through version
