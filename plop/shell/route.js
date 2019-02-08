@@ -3,25 +3,23 @@ const schema = require(__filename.replace('.js', '.schema.js'))
 // const {Users} = require('^iface/db/models/index')
 
 // Core Algorithm Require
-// const getUser = require('^core/user')
+const {{ verb }} = require('^core/{{ name }}/{{ verb }}/index')
 
 module.exports = async (fastify, options) => {
 	fastify
 		.addHook('preHandler', fastify.auth([fastify.permittedRouteSession]))
 		.route({
-			version: '1.0.0',
-			url: '/user',
-			schema: schema.get['/'],
-			method: 'GET',
+			version: '{{ verMajor }}.{{ verMinor }}.0',
+			url: '/{{ route }}',
+			schema: schema.{{ verb }}['/'],
+			method: '{{ constantCase verb }}',
 			handler: async request => {
 				/* Database Model(s) example
 				return Users.query()
 					.where('id', request.session.user_id)
 					.eager('[clusters]')
 				*/
-				/* Core Algorithm Example
-				return getUser({request})
-				 */
+				return {{ verb }}({request})
 			}
 		})
 }

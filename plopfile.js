@@ -1,11 +1,11 @@
 module.exports = function(plop) {
-	plop.setGenerator('core ~ route', {
-		description: 'adds route to the core',
+	plop.setGenerator('new name', {
+		description: 'Add a new Route to both Core & Shell',
 		prompts: [
 			{
 				type: 'input',
 				name: 'name',
-				message: 'route name? (must match shell route name)'
+				message: 'Route name? ( flat routes only at this time )'
 			},
 			{
 				type: 'list',
@@ -34,13 +34,25 @@ module.exports = function(plop) {
 			{
 				path: 'core/routes/{{ name }}/{{ verb }}/v0.js',
 				skipIfExists: true,
-				templateFile: 'plop/core/route/core.js',
+				templateFile: 'plop/core/route/v.js',
 				type: 'add'
 			},
 			{
 				path: 'core/routes/{{ name }}/{{ verb }}/v0.spec.js',
 				skipIfExists: true,
-				templateFile: 'plop/core/route/core.spec.js',
+				templateFile: 'plop/core/route/v.spec.js',
+				type: 'add'
+			},
+			{
+				path: 'shell/routes/{{ name }}.js',
+				skipIfExists: true,
+				templateFile: 'plop/shell/route.js',
+				type: 'add'
+			},
+			{
+				path: 'shell/routes/{{ name }}.schema.js',
+				skipIfExists: true,
+				templateFile: 'plop/shell/route.schema.js',
 				type: 'add'
 			}
 		]
