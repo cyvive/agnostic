@@ -12,7 +12,7 @@
 		// Package.json externally managed via MRM as per Company Design Guidelines
 		["package.json", "pollinate/PROJECT-package.json"]
 	],
-	"move": [{"pollinate/fathomable.yaml": "fathomable.yaml"}],
+	"move": [{"fathomable-pollen.yaml": "fathomable.yaml"}],
 	"discard": [
 		".documentary",
 		".nyc_output",
