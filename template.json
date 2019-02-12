@@ -16,9 +16,11 @@
 	"discard": [
 		".documentary",
 		".nyc_output",
-		"pollinate/*",
 		"README.md",
-		"node_modules"
+		"node_modules",
+		"pollinate",
+    "cmd",
+    "nix-node-modules"
 	],
-	"complete": "git init {{ name }}; cd {{ name }}; git submodule add -b master git@github.com:sotekton/cloud-native-nix.git cmd; git submodule add -b master git@github.com:sotekton/nix-node-packages.git"
+	"complete": "git init {{ name }}; cd {{ name }}; git submodule add -b master git@github.com:sotekton/cloud-native-nix.git cmd; git submodule add -b master git@github.com:sotekton/nix-node-packages.git; git submodule init; git submodule update"
 }
