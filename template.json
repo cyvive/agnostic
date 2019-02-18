@@ -20,7 +20,7 @@
 		"node_modules",
 		"pollinate",
     "cmd",
-    "nix-node-modules"
+    "nix-node-packages"
 	],
 	"complete": "git init {{ name }}; cd {{ name }}; git submodule add -b master git@github.com:sotekton/cloud-native-nix.git cmd; git submodule add -b master git@github.com:sotekton/nix-node-packages.git; git submodule init; git submodule update"
 }
