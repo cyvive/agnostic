@@ -7,10 +7,10 @@
 	"author": "MySelf",
 
 	// Pollinate Instructions
-	"parse": ["pollinate/*"],
+	"parse": ["pollen/*"],
 	"merge": [
 		// Package.json externally managed via MRM as per Company Design Guidelines
-		["package.json", "pollinate/PROJECT-package.json"]
+		["package.json", "pollen/PROJECT-package.json"]
 	],
 	"move": [{"fathomable-pollen.yaml": "fathomable.yaml"}],
 	"discard": [
@@ -18,7 +18,7 @@
 		".nyc_output",
 		"README.md",
 		"node_modules",
-		"pollinate",
+		"pollen",
     "cmd",
     "nix-node-packages"
 	],
