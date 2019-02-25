@@ -1,5 +1,39 @@
 ## Features
 
+### Incremental Functionality
+
+This project strives hard not to be classified as a framework, as such it tries to provide a collection of best practice approaches (somewhat opinionated) for operating software at scale and speed.
+
+Two core tools allow for incremental additions of functionality on an as-needed basis. Similar to a microkernel.
+
+#### MRM (TODO)
+
+[MRM](https://github.com/sapegin/mrm)'s codemods functionality supplies the ability to load chunks of functionality when necessary by re-writing necessary configuration.
+
+- merge required libraries into package.json
+- inject additional generators into plopfile.js
+
+As such to enable database functionality:
+
+```sh
+mrm db --dir mrm
+# alternatively "database" may be specified
+```
+
+All currently available MRM tasks are as follows: %TREE -d -L 1 mrm%
+
+#### Plop (TODO)
+
+Every developer (or team) creates structures and patterns in their code that change and improve over time. In traditional codebases its not easy to locate what files had the current "best practice". Via **Plop** your "best practice" method of creating any given pattern is available in CODE. Turning "the right way" into "the easiest way" to make new files
+
+The `plop` directory is managed as a Git SubModule to allow easier tracking of additional features and functionality added over time. With its current structure representing:
+
+%TREE -d plop%
+
+Execution is interactive, and fairly self-explanatory via: `plop`
+
+**Customization**: its not suggested to customize the `plop` directory directly due to it being a submodule, as such an `extend-plop` directory is available. Use the same extension approach as by changing the directory: %EXAMPLE: plopfile.js, ../src => documentary%
+
 ### Imperative Core / Functional Shell
 
 This project follows the best practices of **logic programming** and **function / object composition**. As such the navigation and layout may be slightly different to most standard webservers / Object Oriented applications available today.

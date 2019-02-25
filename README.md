@@ -10,35 +10,36 @@ This is the **Internal** template, and as such is expected to not recieve traffi
 
 - [Table Of Contents](#table-of-contents)
 - [Deployment](#deployment)
-  * [Essentials](#essentials)
-  * [ENV's](#envs)
-  * [Installing](#installing)
-  * [Post-Install Changes to Workflow](#post-install-changes-to-workflow)
-    * [NIX](#nix)
-    * [NIX from NPM](#nix-from-npm)
-    * [Git Submodules](#git-submodules)
-    * [Governance](#governance)
-    * [Commands](#commands)
-  * [Commits](#commits)
-  * [Examples](#examples)
+  - [Essentials](#essentials)
+  - [ENV's](#envs)
+  - [Installing](#installing)
+  - [Post-Install Changes to Workflow](#post-install-changes-to-workflow)
+    - [NIX](#nix)
+    - [Git Submodules](#git-submodules)
+    - [Governance](#governance)
+    - [NPM Scripts](#npm-scripts)
+  - [Commits](#commits)
 - [Features](#features)
-  * [Imperative Core / Functional Shell](#imperative-core--functional-shell)
-    * [InterFace](#interface)
-    * [Shell](#shell)
-    * [Core](#core)
-  * [Objection.js](#objectionjs)
-  * [Fastify](#fastify)
-  * [Redis Cache](#redis-cache)
-  * [Serialization Aware](#serialization-aware)
-  * [Distributed Authentication](#distributed-authentication)
-  * [Distributed Policy Management](#distributed-policy-management)
-  * [Just Enough Testing](#just-enough-testing)
-  * [Automatic JSON Schema generation](#automatic-json-schema-generation)
+  - [Incremental Functionality](#incremental-functionality)
+    - [MRM (TODO)](#mrm-todo)
+    - [Plop (TODO)](#plop-todo)
+  - [Imperative Core / Functional Shell](#imperative-core--functional-shell)
+    - [InterFace](#interface)
+    - [Shell](#shell)
+    - [Core](#core)
+  - [Objection.js](#objectionjs)
+  - [Fastify](#fastify)
+  - [Redis Cache](#redis-cache)
+  - [Serialization Aware](#serialization-aware)
+  - [Distributed Authentication](#distributed-authentication)
+  - [Distributed Policy Management](#distributed-policy-management)
+  - [Just Enough Testing](#just-enough-testing)
+  - [Automatic JSON Schema generation](#automatic-json-schema-generation)
 - [Development](#development)
-  * [Prerequisites](#prerequisites)
-  * [Installing](#installing)
+  - [Prerequisites](#prerequisites)
+  - [Installing](#installing)
 - [Running the tests](#running-the-tests)
-  * [And coding style tests](#and-coding-style-tests)
+  - [And coding style tests](#and-coding-style-tests)
 - [Built With](#built-with)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
@@ -48,7 +49,6 @@ This is the **Internal** template, and as such is expected to not recieve traffi
 - [Acknowledgments](#acknowledgments)
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-3.svg?sanitize=true"></a></p>
-
 
 ## Deployment
 
@@ -73,7 +73,12 @@ No Environmental variables are necessary for this process to operate
 Instead, use [Pollinate](https://github.com/howardroark/pollinate) to pull down a customized version to your local working directory.
 
 ```sh
-pollinate https://github.com/sotekton/cloud-native-internal.git --name yourproject --organization yourcompany
+pollinate https://github.com/sotekton/cloud-native-internal.git \
+	--author (your name) \
+	--container-repository (hub.docker.io) \
+	--description (optional context) \
+	--name (your project) \
+	--organization (your company or team)
 ```
 
 **name** must be supplied, all other values are capable of being defaulted (strongly recommended that all relevant values are supplied and defaults not used where possible)
@@ -88,7 +93,9 @@ a `~/.pollen` defaults file may also be used if relevant to your organization
 
 Full information about what cli parameters are available can be found in [template.json](./template.json)
 
-It should also be noted that while **Pollinate** has the ability to preserve commit history into the cloned repositories this has been disabled as the expectation is post-cloning there would be heavy customizations incurred.
+It should also be noted that while **Pollinate** has the ability to preserve commit history into the cloned repositories this project disables it as the expectation is post-cloning there would be heavy customizations with no relevance to the original snapshot on an independent lifecycle.
+
+If your organization is using MRM (strongly recommended as per above) after pollinating would be the appropriate moment to execute it and finish initializing the repository with your organization specific requirements.
 
 ### Post-Install Changes to Workflow
 
@@ -98,23 +105,46 @@ This is a [Nodejs](https://nodejs.org/en/) project, and while its possible to ru
 
 [Nix](https://nixos.org/nix/) is required to use this repository effectively.
 
-```
+```sh
 curl https://nixos.org/nix/install | sh
 ```
-#### NIX from NPM
 
-[Nix From NPM](https://github.com/adnelson/nixfromnpm) is also required to bridge NIX and NPM.
+NIX is tightly integrated into this project, running `npm shell` or `npm shell:prod` (provided NIX is installed) will provide you with a clean development / production like environment.
+
+Should you need additional packages, there is no need to install them in the parent operating system, as nix is the best re-invention of package management available today:
+
+```sh
+nix search nodejs-10_x
+```
+
+finds the nodejs v10 package:
 
 ```
-git clone https://github.com/adnelson/nixfromnpm /tmp/nixfromnpm
-cd /tmp/nixfromnpm
-nix-env --install --attr nixfromnpm --file ./release.nix
+Event-driven I/O framework for the V8 JavaScript engine
 ```
+
+Then add the required package to:
+
+```nix
+envPkgs = with pkgs;
+	[
+		nodejs
+
+   pkgs.git
+   pkgs.jq
+
+   # NixOS specific package; installs as client only. i.e.  - still requires a system Docker daemon running
+   pkgs.docker
+	];
+```
+
+If additional customizations are necessary to the default NIX packaged program, i.e. pointing to a config file. Its suggested to use [symlinkjoin](https://discourse.nixos.org/t/how-to-merge-several-derivation-outputs-for-plugin-system/537/4)
+
 #### Git Submodules
 
-Git Submodule should be checked out as well with:
+Git Submodule should be kept in sync / updated with:
 
-```
+```sh
 git submodule update --remote
 ```
 
@@ -124,42 +154,88 @@ Your system now has the ability to reproduce the **exact** production used in th
 
 **Fathomable** is used by default as a governance language and integration for development, image management and _Continuous Deployment (CD)_ types of activities.
 
-#### Commands
+#### NPM Scripts
 
-Commands are available in the `./cmd` directory and should all be run from the root project directory i.e. `./cmd/update`. At this time running them in the cmd directory will break
-
-- **build**: creates a production and debug docker container.
-- **ci**: is what should be run in your continous integration builder / environment. It will use NIX to execute all the tests, verify code coverage, build and upload the container to your repository. This uses the `fathomable.yaml` file for governance of this process.
-- **dev**: creates a isolated development environment with necessary dependencies. Its a shallow version of `npm install --development` so development dependencies are flattened showing exactly what's required for development.
-- **prod**: creates the same production environment as is deployed in the container (slight difference in file structure as the `.container-ignore` file isn't passed for this environment)
-- **update**: for those coming from npm this is slightly different, as the environments are managed via a nix to npm bridge. To update package.json run this command and it will take care of the heavy lifting and run tests on the project.
+- `shell`: clean development environment (NPM still used to manage packages)
+- `shell:prod`: clean production like environment (NPM still used to manage packages)
+- `doc`: generates documentation as per [documentary](https://github.com/artdecocode/documentary)
+- `update`: updates package.json dependencies (all) to the latest available versions found on NPM
+- `repl`: starts an interactive promise capable REPL. Very useful when working with database objects
+- `commit`: ensures all linting and hooks run appropriately before commits are accepted.
 
 ### Commits
 
 Enter the development environment and run `npm run commit` this will make use of conventionalcommits and all the necessary pre and post git hooks to maintain code quality
 
-If your organization is using MRM (strongly recommended as per above) this would be the appropriate moment to execute it and finish initializing the repository with your organization specific requirements.
-
-### Examples
-
-At this time, provided the [Installing](#Installing) steps have been completed the repository will be initialized; organization defaults applied; and all relevant npm libraries installed.
-
-All operation past at this point is controlled via [MicroGen](https://github.com/busterc/microgen) with the respective templates available in the [./microgen](./microgen) directory with the following starting structure:
-
-```m
-
-```
-
-Execution is as follows:
-
-```sh
-microgen <template-file> [output-file]
-```
-
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-3.svg?sanitize=true"></a></p>
 
-
 ## Features
+
+### Incremental Functionality
+
+This project strives hard not to be classified as a framework, as such it tries to provide a collection of best practice approaches (somewhat opinionated) for operating software at scale and speed.
+
+Two core tools allow for incremental additions of functionality on an as-needed basis. Similar to a microkernel.
+
+#### MRM (TODO)
+
+[MRM](https://github.com/sapegin/mrm)'s codemods functionality supplies the ability to load chunks of functionality when necessary by re-writing necessary configuration.
+
+- merge required libraries into package.json
+- inject additional generators into plopfile.js
+
+As such to enable database functionality:
+
+```sh
+mrm db --dir mrm
+# alternatively "database" may be specified
+```
+
+All currently available MRM tasks are as follows:
+
+```m
+mrm
+├── docco
+├── docco-github
+├── editorconfig
+├── finepack
+├── git
+├── globals
+├── ignore
+├── labels
+├── logs
+├── meta-docco
+├── package
+├── prettier
+├── renovate
+├── templates
+├── test
+└── xo
+```
+
+#### Plop (TODO)
+
+Every developer (or team) creates structures and patterns in their code that change and improve over time. In traditional codebases its not easy to locate what files had the current "best practice". Via **Plop** your "best practice" method of creating any given pattern is available in CODE. Turning "the right way" into "the easiest way" to make new files
+
+The `plop` directory is managed as a Git SubModule to allow easier tracking of additional features and functionality added over time. With its current structure representing:
+
+```m
+plop
+├── core
+│   ├── endpoint
+│   └── route
+├── generators
+└── shell
+    └── route
+```
+
+Execution is interactive, and fairly self-explanatory via: `plop`
+
+**Customization**: its not suggested to customize the `plop` directory directly due to it being a submodule, as such an `extend-plop` directory is available. Use the same extension approach as by changing the directory:
+
+```js
+plop.setGenerator('new name', require('./plop/generators/new-name'))
+```
 
 ### Imperative Core / Functional Shell
 
@@ -271,7 +347,6 @@ All of these are designed to fail fast
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-3.svg?sanitize=true"></a></p>
 
-
 ## Development
 
 These instructions will get you a copy of the project up and running on your local machine for _development and testing_ purposes. See deployment for notes on how to deploy the project on a live system.
@@ -313,14 +388,19 @@ npm run lint
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-3.svg?sanitize=true"></a></p>
 
+const {exec} = require('child_process')
+
+exec('nix search -u nodejs-10_x | head -n 2 | tail -n 1', (err, stdout) => { if (err) { return }
+
+    console.log(stdout)
+
+})
 
 ## Built With
 
 - [CodeCov](http://codecov.io/)
 - [Conventional Commits](https://conventionalcommits.org)
-- [I'm Done](https://imdone.io/)
 - [Node @8.x.x](https://nodejs.org/docs/latest-v8.x/api/)
-- [MicroGen](https://github.com/busterc/microgen)
 - [MRM](https://github.com/sapegin/mrm)
 - [Pollinate](https://github.com/howardroark/pollinate)
 - [RenovateApp](http://renovateapp.com/)

@@ -1,4 +1,12 @@
 [submodule "container"]
 	path = container
-	url = https://github.com/sotekton/cloud-native-container.git
+	url = git@github.com:sotekton/agnostic-container-build.git
+	branch = master
+[submodule "mrm"]
+	path = mrm
+	url = git@github.com:sotekton/agnostic-mrm.git
+	branch = master
+[submodule "plop"]
+	path = plop
+	url = git@github.com:sotekton/agnostic-plop.git
 	branch = master

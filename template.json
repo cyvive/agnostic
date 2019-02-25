@@ -24,5 +24,5 @@
 		"node_modules",
 		"pollen-package.json"
 	],
-	"complete": "git init {{ name }}; cd {{ name }}; git submodule add -b master git@github.com:sotekton/cloud-native-container.git container; git submodule init; git submodule update"
+	"complete": "git init {{ name }}; cd {{ name }}; git submodule add -b master https://github.com/sotekton/agnostic-mrm.git mrm; git submodule add -b master https://github.com/sotekton/agnostic-container-build.git container; git submodule add -b master https://github.com/sotekton/agnostic-plop.git container; git submodule init; git submodule update"
 }

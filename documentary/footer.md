@@ -2,9 +2,7 @@
 
 - [CodeCov](http://codecov.io/)
 - [Conventional Commits](https://conventionalcommits.org)
-- [I'm Done](https://imdone.io/)
 - [Node @8.x.x](https://nodejs.org/docs/latest-v8.x/api/)
-- [MicroGen](https://github.com/busterc/microgen)
 - [MRM](https://github.com/sapegin/mrm)
 - [Pollinate](https://github.com/howardroark/pollinate)
 - [RenovateApp](http://renovateapp.com/)

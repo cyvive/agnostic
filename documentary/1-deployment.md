@@ -21,7 +21,12 @@ No Environmental variables are necessary for this process to operate
 Instead, use [Pollinate](https://github.com/howardroark/pollinate) to pull down a customized version to your local working directory.
 
 ```sh
-pollinate https://github.com/sotekton/cloud-native-internal.git --name yourproject --organization yourcompany
+pollinate https://github.com/sotekton/cloud-native-internal.git \
+	--author (your name) \
+	--container-repository (hub.docker.io) \
+	--description (optional context) \
+	--name (your project) \
+	--organization (your company or team)
 ```
 
 **name** must be supplied, all other values are capable of being defaulted (strongly recommended that all relevant values are supplied and defaults not used where possible)
@@ -36,7 +41,9 @@ a `~/.pollen` defaults file may also be used if relevant to your organization
 
 Full information about what cli parameters are available can be found in [template.json](./template.json)
 
-It should also be noted that while **Pollinate** has the ability to preserve commit history into the cloned repositories this has been disabled as the expectation is post-cloning there would be heavy customizations incurred.
+It should also be noted that while **Pollinate** has the ability to preserve commit history into the cloned repositories this project disables it as the expectation is post-cloning there would be heavy customizations with no relevance to the original snapshot on an independent lifecycle.
+
+If your organization is using MRM (strongly recommended as per above) after pollinating would be the appropriate moment to execute it and finish initializing the repository with your organization specific requirements.
 
 ### Post-Install Changes to Workflow
 
@@ -46,23 +53,31 @@ This is a [Nodejs](https://nodejs.org/en/) project, and while its possible to ru
 
 [Nix](https://nixos.org/nix/) is required to use this repository effectively.
 
-```
+```sh
 curl https://nixos.org/nix/install | sh
 ```
-#### NIX from NPM
 
-[Nix From NPM](https://github.com/adnelson/nixfromnpm) is also required to bridge NIX and NPM.
+NIX is tightly integrated into this project, running `npm shell` or `npm shell:prod` (provided NIX is installed) will provide you with a clean development / production like environment.
 
+Should you need additional packages, there is no need to install them in the parent operating system, as nix is the best re-invention of package management available today:
+
+```sh
+nix search nodejs-10_x
 ```
-git clone https://github.com/adnelson/nixfromnpm /tmp/nixfromnpm
-cd /tmp/nixfromnpm
-nix-env --install --attr nixfromnpm --file ./release.nix
-```
+
+finds the nodejs v10 package: %FORK documentary/nix-search%
+
+Then add the required package to:
+
+%EXAMPLE: default.nix, ../src => documentary%
+
+If additional customizations are necessary to the default NIX packaged program, i.e. pointing to a config file. Its suggested to use [symlinkjoin](https://discourse.nixos.org/t/how-to-merge-several-derivation-outputs-for-plugin-system/537/4)
+
 #### Git Submodules
 
-Git Submodule should be checked out as well with:
+Git Submodule should be kept in sync / updated with:
 
-```
+```sh
 git submodule update --remote
 ```
 
@@ -72,34 +87,17 @@ Your system now has the ability to reproduce the **exact** production used in th
 
 **Fathomable** is used by default as a governance language and integration for development, image management and _Continuous Deployment (CD)_ types of activities.
 
-#### Commands
+#### NPM Scripts
 
-Commands are available in the `./cmd` directory and should all be run from the root project directory i.e. `./cmd/update`. At this time running them in the cmd directory will break
-
-- **build**: creates a production and debug docker container.
-- **ci**: is what should be run in your continous integration builder / environment. It will use NIX to execute all the tests, verify code coverage, build and upload the container to your repository. This uses the `fathomable.yaml` file for governance of this process.
-- **dev**: creates a isolated development environment with necessary dependencies. Its a shallow version of `npm install --development` so development dependencies are flattened showing exactly what's required for development.
-- **prod**: creates the same production environment as is deployed in the container (slight difference in file structure as the `.container-ignore` file isn't passed for this environment)
-- **update**: for those coming from npm this is slightly different, as the environments are managed via a nix to npm bridge. To update package.json run this command and it will take care of the heavy lifting and run tests on the project.
+- `shell`: clean development environment (NPM still used to manage packages)
+- `shell:prod`: clean production like environment (NPM still used to manage packages)
+- `doc`: generates documentation as per [documentary](https://github.com/artdecocode/documentary)
+- `update`: updates package.json dependencies (all) to the latest available versions found on NPM
+- `repl`: starts an interactive promise capable REPL. Very useful when working with database objects
+- `commit`: ensures all linting and hooks run appropriately before commits are accepted.
 
 ### Commits
 
 Enter the development environment and run `npm run commit` this will make use of conventionalcommits and all the necessary pre and post git hooks to maintain code quality
-
-If your organization is using MRM (strongly recommended as per above) this would be the appropriate moment to execute it and finish initializing the repository with your organization specific requirements.
-
-### Examples
-
-At this time, provided the [Installing](#Installing) steps have been completed the repository will be initialized; organization defaults applied; and all relevant npm libraries installed.
-
-All operation past at this point is controlled via [MicroGen](https://github.com/busterc/microgen) with the respective templates available in the [./microgen](./microgen) directory with the following starting structure:
-
-%TREE microgen%
-
-Execution is as follows:
-
-```sh
-microgen <template-file> [output-file]
-```
 
 %~ -3%

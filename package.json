@@ -27,9 +27,10 @@
 		"test": "per-env",
 		"posttest": "redrun -p codecov:report codecov:check",
 		"test:api": "nyc --cache --per-file --silent run-tests '{,!(node_modules|plop)/**/}*.?(api).js' | tap-min",
-		"test:ci": "nyc --cache --per-file --silent run-tests '{,!(node_modules|plop)/**/}*.?(spec|sanity|api).js' | tap-min || true",
-		"posttest:ci": "redrun -p codecov:* || true",
+		"test:ci": "nyc --cache --per-file --silent run-tests '{,!(node_modules|plop)/**/}*.?(spec|sanity|api).js' | tap-min",
+		"posttest:ci": "redrun -p format:xo codecov:*",
 		"test:development": "nyc --cache --per-file --silent run-tests '{,!(node_modules|plop)/**/}*.?(spec|sanity).js' | tap-min",
+		"posttest:development": "redrun -p format:*",
 		"test:sanity": "nyc --cache --per-file --silent run-tests '{,!(node_modules|plop)/**/}*.?(sanity).js' | tap-min",
 		"update": "updates --update; sort-package-json; prettier --write package.json"
 	},
@@ -47,10 +48,13 @@
 	"lint-staged": {
 		"ignore": [
 			"CHANGELOG.md",
-			"microgen/**"
+			"plop/**"
 		],
 		"linters": {
-			"*.{js}": "xo",
+			"*.{js}": [
+				"prettier --write ",
+				"xo"
+			],
 			"*.{css,md}": [
 				"prettier --write",
 				"git add"
@@ -166,6 +170,7 @@
 		"lint-staged": "8.1.4",
 		"local-repl": "4.0.0",
 		"mismatch": "1.0.3",
+		"mrm": "1.2.1",
 		"nock": "10.0.6",
 		"nyc": "13.3.0",
 		"pino-pretty": "2.5.0",
