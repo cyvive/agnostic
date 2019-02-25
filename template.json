@@ -2,25 +2,27 @@
 	// Defaults || Project Data
 	"name": "cloud-native-internal", // additionally used as directory name when scaffolding out of this repo
 	"description": "minimal framework for Cloud Native Applications to build on",
-	"organization": "Sotekton",
+	"organization": "sotekton",
 	"container-repository": "hub.docker.io",
 	"author": "MySelf",
 
 	// Pollinate Instructions
-	"parse": ["pollen/*"],
+	"parse": ["pollen-*"],
 	"merge": [
 		// Package.json externally managed via MRM as per Company Design Guidelines
-		["package.json", "pollen/PROJECT-package.json"]
+		["package.json", "pollen-package.json"]
 	],
-	"move": [{"fathomable-pollen.yaml": "fathomable.yaml"}],
+	"move": [
+		{"pollen-fathomable.yaml": "fathomable.yaml"},
+		{"pollen-Dockerfile": "Dockerfile"}
+	],
 	"discard": [
 		".documentary",
 		".nyc_output",
 		"README.md",
+		"container",
 		"node_modules",
-		"pollen",
-    "cmd",
-    "nix-node-packages"
+		"pollen-package.json"
 	],
-	"complete": "git init {{ name }}; cd {{ name }}; git submodule add -b master git@github.com:sotekton/cloud-native-nix.git cmd; git submodule add -b master git@github.com:sotekton/nix-node-packages.git; git submodule init; git submodule update"
+	"complete": "git init {{ name }}; cd {{ name }}; git submodule add -b master git@github.com:sotekton/cloud-native-container.git container; git submodule init; git submodule update"
 }

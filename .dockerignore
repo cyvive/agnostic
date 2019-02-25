@@ -1,0 +1,26 @@
+# Ignore everything
+**
+
+# Allow files and directories
+!/.editorconfig
+!/.npmrc
+!/.prettierignore
+!/.prettierrc
+!/.replrc.js
+!/README.md
+!/bin/**
+!/config/**
+!/core/**
+!/iface/**
+!/index.js
+!/knexfile.js
+!/package-lock.json
+!/package.json
+!/shell/**
+
+# Ignore unnecessary files inside allowed directories
+# This should go after the allowed directories
+**/*~
+**/*.log
+**/.DS_Store
+**/Thumbs.db

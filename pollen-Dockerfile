@@ -1,0 +1,12 @@
+# When extending base image, copy relevant files into built image
+#FROM {{ organization }}/{{ name }}:0.0.0-basal AS extended
+
+ARG version=nodejs
+FROM sotekton/basal:$version AS base
+
+#COPY --from extended /. .
+COPY . /opt/app
+
+RUN npm ci --production
+
+EXPOSE 3000
