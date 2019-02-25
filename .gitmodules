@@ -6,3 +6,7 @@
 	path = mrm
 	url = git@github.com:sotekton/agnostic-mrm.git
 	branch = master
+[submodule "plop"]
+	path = plop
+	url = git@github.com:sotekton/agnostic-plop.git
+	branch = master
