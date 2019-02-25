@@ -1,13 +1,21 @@
 {
 	"name": "@{{ organization }}/{{ name }}",
-	"homepage": "https://github.com/{{ organization }}/{{ name }}#readme",
 	"description": "{{ description }}",
+	"homepage": "https://github.com/{{ organization }}/{{ name }}#readme",
+	"bugs": {
+		"url": "https://github.com/{{ organization }}/{{ name }}/issues"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/{{ organization }}/{{ name }}.git"
 	},
 	"author": "{{ author }}",
-	"bugs": {
-		"url": "https://github.com/{{ organization }}/{{ name }}/issues"
+	"lint-staged": {
+		"linters": {
+			"package.json": [
+				"./container/sync-fathomable",
+				"git add fathomable.yaml"
+			]
+		}
 	}
 }

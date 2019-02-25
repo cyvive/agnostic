@@ -1,26 +1,107 @@
 {
 	"name": "cloud-native-internal",
-	"description": "Starter scaffold for Internal Cloud Native Applications",
-	"homepage": "https://github.com/sotekton/cloud-native-internal#readme",
 	"version": "0.0.0",
-	"main": "index.js",
+	"description": "Starter scaffold for Internal Cloud Native Applications",
 	"keywords": [],
+	"homepage": "https://github.com/sotekton/cloud-native-internal#readme",
+	"license": "SEE LICENSE IN LICENSE",
+	"files": [
+		"index.js"
+	],
+	"main": "index.js",
+	"scripts": {
+		"codecov:check": "nyc --per-file check-coverage --statements=90 --lines=90 --functions=90",
+		"codecov:generate": "nyc report --reporter=text-lcov > coverage.lcov",
+		"codecov:report": "nyc report --reporter=text",
+		"codecov:upload": "codecov -t || true",
+		"commit": "commit",
+		"doc": "doc documentary -o README.md",
+		"format": "redrun -p format:*",
+		"format:prettier": "prettier --write '**/*.{css,md}'",
+		"format:xo": "xo ./**/*.js",
+		"prestart:production": "run-tests '{,!(node_modules|plop)/**/}*.?(sanity|api).js' | tap-min",
+		"repl": "local-repl",
+		"shell": "if which nix-shell; then nix-shell --cores 0 || true; else echo \"ERROR: Nix not present, see README.md\"; fi",
+		"shell:prod": "if which nix-shell; then NODE_ENV=production nix-shell --cores 0 --pure --keep NODE_ENV || true; else echo \"ERROR: Nix not present, see README.md\"; fi",
+		"start": "knex-migrate up && node index.js",
+		"test": "per-env",
+		"posttest": "redrun -p codecov:report codecov:check",
+		"test:api": "nyc --cache --per-file --silent run-tests '{,!(node_modules|plop)/**/}*.?(api).js' | tap-min",
+		"test:ci": "nyc --cache --per-file --silent run-tests '{,!(node_modules|plop)/**/}*.?(spec|sanity|api).js' | tap-min || true",
+		"posttest:ci": "redrun -p codecov:* || true",
+		"test:development": "nyc --cache --per-file --silent run-tests '{,!(node_modules|plop)/**/}*.?(spec|sanity).js' | tap-min",
+		"test:sanity": "nyc --cache --per-file --silent run-tests '{,!(node_modules|plop)/**/}*.?(sanity).js' | tap-min",
+		"update": "updates --update; sort-package-json; prettier --write package.json"
+	},
+	"husky": {
+		"hooks": {
+			"commit-msg": "commitlint -e $GIT_PARAMS",
+			"pre-commit": "lint-staged"
+		}
+	},
+	"commitlint": {
+		"extends": [
+			"@commitlint/config-conventional"
+		]
+	},
+	"lint-staged": {
+		"ignore": [
+			"CHANGELOG.md",
+			"microgen/**"
+		],
+		"linters": {
+			"*.{js}": "xo",
+			"*.{css,md}": [
+				"prettier --write",
+				"git add"
+			],
+			"*.{spec,sanity,api}.js": [
+				"nyc --per-file --check-coverage --statements=90 --lines=90 --functions=90 run-tests"
+			],
+			"documentary/**/*.md": [
+				"redrun doc",
+				"git add README.md"
+			]
+		}
+	},
+	"xo": {
+		"globals": [
+			"$",
+			"_",
+			"dbError",
+			"config"
+		],
+		"ignores": [
+			"python_modules/"
+		],
+		"prettier": true,
+		"rules": {
+			"camelcase": "off",
+			"generator-star-spacing": "off",
+			"import/no-extraneous-dependencies": "off",
+			"import/no-unassigned-import": "off",
+			"import/no-unresolved": "off",
+			"import/order": "off",
+			"operator-linebreak": "off"
+		},
+		"semicolon": false
+	},
 	"dependencies": {
 		"abstract-cache": "1.0.1",
 		"abstract-cache-redis": "1.0.2",
-		"ajv": "6.8.1",
+		"ajv": "6.9.2",
 		"authenticator": "1.1.5",
 		"await-result": "2.2.1",
-		"casbin": "2.0.0",
+		"casbin": "2.0.1",
 		"config": "3.0.1",
-		"cuid": "2.1.4",
-		"dayjs": "1.8.5",
+		"cuid": "2.1.6",
+		"dayjs": "1.8.8",
 		"deeps": "1.4.5",
 		"emittery": "0.4.1",
 		"fast-json-patch": "2.0.7",
 		"fastify": "1.14.1",
 		"fastify-accepts-serializer": "1.0.2",
-		"fastify-auth": "0.3.0",
+		"fastify-auth": "0.4.0",
 		"fastify-blipp": "1.2.1",
 		"fastify-caching": "3.0.0",
 		"fastify-redis": "3.0.0",
@@ -30,25 +111,25 @@
 		"hasha": "3.0.0",
 		"ioredis": "4.6.2",
 		"is-installed": "2.0.1",
+		"is-semver": "1.0.9",
 		"knex": "0.16.3",
 		"knex-migrate": "1.7.0",
 		"latest-semver": "1.0.0",
-		"is-semver": "1.0.9",
 		"make-promises-safe": "4.0.0",
 		"map-factory": "3.8.0",
-		"muggle-test": "1.0.0",
 		"muggle-assert": "1.1.3",
+		"muggle-test": "1.0.0",
 		"obj-watcher": "2.0.15",
-		"objection": "1.5.3",
+		"objection": "1.6.2",
 		"objection-db-errors": "1.0.0",
 		"objection-soft-delete": "1.0.5",
 		"per-env": "1.0.2",
 		"permit": "0.2.4",
-		"pg": "7.8.0",
+		"pg": "7.8.1",
 		"pino": "5.11.1",
 		"pino-debug": "1.2.0",
-		"rambdax": "1.7.1",
-		"redrun": "7.1.4",
+		"rambdax": "1.8.0",
+		"redrun": "7.1.5",
 		"resquire": "1.1.1",
 		"rfdc": "1.1.2",
 		"tap-min": "1.3.0",
@@ -58,17 +139,17 @@
 		"xxhashjs": "0.2.2"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "7.5.0",
+		"@commitlint/cli": "7.5.2",
 		"@commitlint/config-conventional": "7.5.0",
-		"@commitlint/lint": "7.5.0",
+		"@commitlint/lint": "7.5.2",
 		"@commitlint/prompt-cli": "7.5.0",
-		"acorn": "6.0.7",
+		"acorn": "6.1.0",
 		"babel-runtime": "6.26.0",
 		"chuhai": "1.2.0",
 		"clear-module": "3.1.0",
-		"codecov": "3.1.0",
-		"documentary": "1.21.1",
-		"eslint": "5.13.0",
+		"codecov": "3.2.0",
+		"documentary": "git+https://git@github.com/Keidrych/documentary.git",
+		"eslint": "5.14.1",
 		"eslint-config-prettier": "4.0.0",
 		"eslint-config-xo": "0.26.0",
 		"eslint-plugin-ava": "5.1.1",
@@ -82,26 +163,27 @@
 		"fmtconv": "1.0.7",
 		"gron": "4.4.0",
 		"husky": "1.3.1",
-		"lint-staged": "8.1.3",
+		"lint-staged": "8.1.4",
 		"local-repl": "4.0.0",
 		"mismatch": "1.0.3",
 		"nock": "10.0.6",
-		"nyc": "13.2.0",
+		"nyc": "13.3.0",
 		"pino-pretty": "2.5.0",
-		"plop": "2.2.0",
+		"plop": "2.2.1",
 		"prettier": "1.16.4",
 		"rewire": "4.0.1",
 		"run-tests": "1.0.4",
 		"rxjs": "6.4.0",
 		"rxjs-compat": "6.4.0",
+		"sort-package-json": "1.19.0",
 		"supertest": "3.4.2",
-		"testdouble": "3.10.0",
+		"testdouble": "3.11.0",
 		"tree-node-cli": "1.2.5",
-		"updates": "7.0.0",
+		"updates": "7.1.1",
 		"xo": "0.24.0"
 	},
 	"optionalDependencies": {
-		"fastify-cookie": "2.1.6",
+		"fastify-cookie": "2.1.7",
 		"fastify-nodemailer": "3.0.0",
 		"fastify-server-session": "2.0.0",
 		"iron": "5.0.6",
@@ -112,73 +194,13 @@
 	"engines": {
 		"node": ">=8"
 	},
-	"files": [
-		"index.js"
-	],
-	"scripts": {
-		"commit": "commit",
-		"doc": "doc documentary -o README.md",
-		"format": "redrun -p format:*",
-		"format:prettier": "prettier --write '**/*.{css,md}'",
-		"format:xo": "xo ./**/*.js",
-		"start": "./node_modules/.bin/knex-migrate up && node index.js",
-		"repl": "local-repl",
-		"test": "per-env",
-		"posttest": "redrun -p codecov:report codecov:check",
-		"test:api": "nyc --cache --per-file --silent run-tests '{,!(node_modules|container)/**/}*.?(api).js' | tap-min",
-		"test:development": "nyc --cache --per-file --silent run-tests '{,!(node_modules|container)/**/}*.?(spec|sanity).js' | tap-min",
-		"test:sanity": "nyc --cache --per-file --silent run-tests '{,!(node_modules|container)/**/}*.?(sanity).js' | tap-min",
-		"test:ci": "nyc --cache --per-file --silent run-tests '{,!(node_modules|container)/**/}*.?(spec|sanity|api).js' | tap-min",
-		"posttest:ci": "redrun -p codecov:*",
-		"codecov:check": "nyc --per-file check-coverage --statements=90 --lines=90 --functions=90",
-		"codecov:generate": "nyc report --reporter=text-lcov > coverage.lcov",
-		"codecov:report": "nyc report --reporter=text",
-		"codecov:upload": "codecov -t || true",
-		"prestart:production": "run-tests '{,!(node_modules|container)/**/}*.?(sanity|api).js' | tap-min"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"commitlint": {
-		"extends": [
-			"@commitlint/config-conventional"
-		]
-	},
-	"husky": {
-		"hooks": {
-			"commit-msg": "commitlint -e $GIT_PARAMS",
-			"pre-commit": "lint-staged"
-		}
-	},
-	"lint-staged": {
-		"linters": {
-			"*.{js}": "xo",
-			"*.{css,md}": [
-				"prettier --write",
-				"git add"
-			],
-			"*.{spec,sanity,api}.js": [
-				"nyc --per-file --check-coverage --statements=90 --lines=90 --functions=90 run-tests"
-			],
-			"documentary/**/*.md": [
-				"redrun doc",
-				"git add README.md"
-			],
-			"package.json": [
-				"./cmd/sync-fathomable",
-				"git add fathomable.yaml"
-			]
-		},
-		"ignore": [
-			"CHANGELOG.md",
-			"microgen/**"
-		]
-	},
 	"nyc": {
 		"exclude": [
 			"**/*.api.js",
 			"**/*.sanity.js",
 			"**/*.spec.js",
 			"**/node_modules/**",
-			"container/**",
+			"plop/**",
 			"core/index.js",
 			"coverage/**",
 			"tap.js"
@@ -204,27 +226,5 @@
 				95
 			]
 		}
-	},
-	"xo": {
-		"globals": [
-			"$",
-			"_",
-			"dbError",
-			"config"
-		],
-		"ignores": [
-			"python_modules/"
-		],
-		"prettier": true,
-		"rules": {
-			"camelcase": "off",
-			"generator-star-spacing": "off",
-			"import/no-extraneous-dependencies": "off",
-			"import/no-unassigned-import": "off",
-			"import/no-unresolved": "off",
-			"import/order": "off",
-			"operator-linebreak": "off"
-		},
-		"semicolon": false
 	}
 }
