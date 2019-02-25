@@ -13,8 +13,8 @@ These instructions will get you a copy of the project up and running on your loc
 A step by step series of examples that tell you how to get a development env running
 
 ```
-git clone git@github.com:sotekton/cloud-native-internal.git
-cd cloud-native-internal
+git clone git@github.com:sotekton/agnostic.git
+cd agnostic
 npm install
 ```
 

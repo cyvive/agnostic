@@ -7,7 +7,7 @@ Quickstart overview of getting this template deployed and ready to be extended /
 Due to this repository being a multi-layer template it hasn't and will not be published on NPM. As such, the expectation is that the user would have the following tools installed globally and configured to effectively use this template:
 
 - [MicroGen](https://github.com/busterc/microgen) simply lightweight base file generator. Included to assist with adding new files as the microservice grows while allowing to exend the core functionality from starting standards.
-- [MRM](https://github.com/sapegin/mrm) as a codemods approach for configuration files. This is an enterprise happy configuration management tool, and the expectation is that this is available to provide global npm package management. An example (and suggested) fork repository to start from is: [Cloud Native MRM](https://github.com/sotekton/cloud-native-mrm)
+- [MRM](https://github.com/sapegin/mrm) as a codemods approach for configuration files. This is an enterprise happy configuration management tool, and the expectation is that this is available to provide global npm package management. An example (and suggested) fork repository to start from is: [Cloud Native MRM](https://github.com/sotekton/agnostic-mrm)
 - [Pollinate](https://github.com/howardroark/pollinate) to install the latest copy of this repository into the users preferred directory for building upon. Pollinate ensures that you always get the latest version of the template cloned and customized for your needs.
 
 ### ENV's
@@ -21,7 +21,7 @@ No Environmental variables are necessary for this process to operate
 Instead, use [Pollinate](https://github.com/howardroark/pollinate) to pull down a customized version to your local working directory.
 
 ```sh
-pollinate https://github.com/sotekton/cloud-native-internal.git \
+pollinate https://github.com/sotekton/agnostic.git \
 	--author (your name) \
 	--container-repository (hub.docker.io) \
 	--description (optional context) \
@@ -34,7 +34,7 @@ pollinate https://github.com/sotekton/cloud-native-internal.git \
 Alternatively a JSON string may be passed in
 
 ```sh
-pollinate https://github.com/sotekton/cloud-native-internal.git '{"name": "yourproject","organization": "yourcompany"}'
+pollinate https://github.com/sotekton/agnostic.git '{"name": "yourproject","organization": "yourcompany"}'
 ```
 
 a `~/.pollen` defaults file may also be used if relevant to your organization

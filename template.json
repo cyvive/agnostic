@@ -1,6 +1,6 @@
 {
 	// Defaults || Project Data
-	"name": "cloud-native-internal", // additionally used as directory name when scaffolding out of this repo
+	"name": "agnostic", // additionally used as directory name when scaffolding out of this repo
 	"description": "minimal framework for Cloud Native Applications to build on",
 	"organization": "sotekton",
 	"container-repository": "hub.docker.io",

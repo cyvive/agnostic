@@ -13,8 +13,9 @@
 	"lint-staged": {
 		"linters": {
 			"package.json": [
+				"sort-package-json",
 				"./container/sync-fathomable",
-				"git add fathomable.yaml"
+				"git add fathomable.yaml package.json"
 			]
 		}
 	}

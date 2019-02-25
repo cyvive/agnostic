@@ -22,7 +22,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 - **Keidrych Anton-Oates** - _Initial work_ - [Sotekton](https://sotekton.com)
 
-See also the list of [contributors](https://github.com/sotekton/cloud-native-internal/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/sotekton/agnostic/contributors) who participated in this project.
 
 ## License
 

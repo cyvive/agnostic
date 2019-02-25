@@ -1,8 +1,10 @@
-# Cloud Native: Internal
+# Agnostic:
 
-This is one of several repositories used for architecting **Cloud Native** Applications. The approach undertaken works on Kubernetes, and any of the currently available cloud providers.
+This is the core repository of a collection of Git repositories to enable _Agnostic Software Development_. A coding style and pattern that works on any Ubiquitous platform (Kubernetes Included). This particular project is in [NodeJs](https://nodejs.org/) but the processes and techniques are applicable to any language.
 
-This is the **Internal** template, and as such is expected to not recieve traffic external to the cloud cluster.
+This project strives hard not to be classified as a framework, as such it tries to provide a collection of best practice approaches (somewhat opinionated) for operating software at scale and speed.
+
+The approaches suggested / undertaken are production grade and underpin some of the more forward thinking Enterprises.
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-3.svg?sanitize=true"></a></p>
 
@@ -59,7 +61,7 @@ Quickstart overview of getting this template deployed and ready to be extended /
 Due to this repository being a multi-layer template it hasn't and will not be published on NPM. As such, the expectation is that the user would have the following tools installed globally and configured to effectively use this template:
 
 - [MicroGen](https://github.com/busterc/microgen) simply lightweight base file generator. Included to assist with adding new files as the microservice grows while allowing to exend the core functionality from starting standards.
-- [MRM](https://github.com/sapegin/mrm) as a codemods approach for configuration files. This is an enterprise happy configuration management tool, and the expectation is that this is available to provide global npm package management. An example (and suggested) fork repository to start from is: [Cloud Native MRM](https://github.com/sotekton/cloud-native-mrm)
+- [MRM](https://github.com/sapegin/mrm) as a codemods approach for configuration files. This is an enterprise happy configuration management tool, and the expectation is that this is available to provide global npm package management. An example (and suggested) fork repository to start from is: [Cloud Native MRM](https://github.com/sotekton/agnostic-mrm)
 - [Pollinate](https://github.com/howardroark/pollinate) to install the latest copy of this repository into the users preferred directory for building upon. Pollinate ensures that you always get the latest version of the template cloned and customized for your needs.
 
 ### ENV's
@@ -73,7 +75,7 @@ No Environmental variables are necessary for this process to operate
 Instead, use [Pollinate](https://github.com/howardroark/pollinate) to pull down a customized version to your local working directory.
 
 ```sh
-pollinate https://github.com/sotekton/cloud-native-internal.git \
+pollinate https://github.com/sotekton/agnostic.git \
 	--author (your name) \
 	--container-repository (hub.docker.io) \
 	--description (optional context) \
@@ -86,7 +88,7 @@ pollinate https://github.com/sotekton/cloud-native-internal.git \
 Alternatively a JSON string may be passed in
 
 ```sh
-pollinate https://github.com/sotekton/cloud-native-internal.git '{"name": "yourproject","organization": "yourcompany"}'
+pollinate https://github.com/sotekton/agnostic.git '{"name": "yourproject","organization": "yourcompany"}'
 ```
 
 a `~/.pollen` defaults file may also be used if relevant to your organization
@@ -117,11 +119,9 @@ Should you need additional packages, there is no need to install them in the par
 nix search nodejs-10_x
 ```
 
-finds the nodejs v10 package:
+finds the nodejs v10 package: ``` Event-driven I/O framework for the V8 JavaScript engine
 
-```
-Event-driven I/O framework for the V8 JavaScript engine
-```
+````
 
 Then add the required package to:
 
@@ -136,7 +136,7 @@ envPkgs = with pkgs;
    # NixOS specific package; installs as client only. i.e.  - still requires a system Docker daemon running
    pkgs.docker
 	];
-```
+````
 
 If additional customizations are necessary to the default NIX packaged program, i.e. pointing to a config file. Its suggested to use [symlinkjoin](https://discourse.nixos.org/t/how-to-merge-several-derivation-outputs-for-plugin-system/537/4)
 
@@ -191,27 +191,9 @@ mrm db --dir mrm
 # alternatively "database" may be specified
 ```
 
-All currently available MRM tasks are as follows:
+All currently available MRM tasks are as follows: ```m mrm ├── docco ├── docco-github ├── editorconfig ├── finepack ├── git ├── globals ├── ignore ├── labels ├── logs ├── meta-docco ├── package ├── prettier ├── renovate ├── templates ├── test └── xo
 
-```m
-mrm
-├── docco
-├── docco-github
-├── editorconfig
-├── finepack
-├── git
-├── globals
-├── ignore
-├── labels
-├── logs
-├── meta-docco
-├── package
-├── prettier
-├── renovate
-├── templates
-├── test
-└── xo
-```
+````
 
 #### Plop (TODO)
 
@@ -227,15 +209,11 @@ plop
 ├── generators
 └── shell
     └── route
-```
+````
 
 Execution is interactive, and fairly self-explanatory via: `plop`
 
-**Customization**: its not suggested to customize the `plop` directory directly due to it being a submodule, as such an `extend-plop` directory is available. Use the same extension approach as by changing the directory:
-
-```js
-plop.setGenerator('new name', require('./plop/generators/new-name'))
-```
+**Customization**: its not suggested to customize the `plop` directory directly due to it being a submodule, as such an `extend-plop` directory is available. Use the same extension approach as by changing the directory: %EXAMPLE: plopfile.js, ../src => documentary%
 
 ### Imperative Core / Functional Shell
 
@@ -362,8 +340,8 @@ These instructions will get you a copy of the project up and running on your loc
 A step by step series of examples that tell you how to get a development env running
 
 ```
-git clone git@github.com:sotekton/cloud-native-internal.git
-cd cloud-native-internal
+git clone git@github.com:sotekton/agnostic.git
+cd agnostic
 npm install
 ```
 
@@ -420,7 +398,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 - **Keidrych Anton-Oates** - _Initial work_ - [Sotekton](https://sotekton.com)
 
-See also the list of [contributors](https://github.com/sotekton/cloud-native-internal/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/sotekton/agnostic/contributors) who participated in this project.
 
 ## License
 
