@@ -16,6 +16,3 @@ result*
 coverage/
 .nixconfig/
 *.swp
-iface/
-core/
-shell/

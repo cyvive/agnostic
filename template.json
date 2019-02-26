@@ -13,11 +13,13 @@
 		["package.json", "pollen-package.json"]
 	],
 	"move": [
+		{"pollen-Dockerfile": "Dockerfile"},
 		{"pollen-fathomable.yaml": "fathomable.yaml"},
-		{"pollen-Dockerfile": "Dockerfile"}
+		{"pollen-gitignore": ".gitignore"}
 	],
 	"discard": [
 		".documentary",
+		".gitignore",
 		".nyc_output",
 		"README.md",
 		"container",

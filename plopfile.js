@@ -3,6 +3,7 @@
 
 module.exports = function(plop) {
 	/* start example */
-	plop.setGenerator('new name', require('./plop/generators/new-name'))
+	plop.setGenerator('new route', require('./plop/generators/new/route'))
 	/* end example */
+	/* MRMInjection */
 }

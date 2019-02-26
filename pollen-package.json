@@ -14,6 +14,9 @@
 		"linters": {
 			"package.json": [
 				"sort-package-json",
+				"npm dedupe",
+				"npm prune",
+				"npm audit fix",
 				"./container/sync-fathomable",
 				"git add fathomable.yaml package.json"
 			]
