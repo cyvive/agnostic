@@ -56,20 +56,13 @@ fastify
 		}
 	})
 
-	// Routes
-	.register(require('^shell/routes/login'))
-	.register(require('^shell/routes/logout'))
-	.register(require('^shell/routes/me'))
-	.register(require('^shell/routes/register'))
-//	.register(require('./shell/routes/clusters'))
-//	.register(require('./shell/routes/invoices'))
-//	.register(require('./shell/routes/sync'))
-//	.register(require('./shell/routes/foxycart'))
+// Routes
+/* PlopInjection:routeName */
 
 fastify.listen(3000, (err, address) => {
 	if (err) {
 		throw err
 	}
-	fastify.blipp()
-	fastify.log.info(`server listening on ${address}`)
+
+	fastify.blipp().log.info(`server listening on ${address}`)
 })
