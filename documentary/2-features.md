@@ -20,7 +20,9 @@ mrm db --dir mrm
 # alternatively "database" may be specified
 ```
 
-All currently available MRM tasks are as follows: %TREE -d -L 1 mrm%
+All currently available MRM tasks are as follows:
+
+%TREE -d -L 1 mrm%
 
 #### Plop (TODO)
 
