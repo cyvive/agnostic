@@ -48,8 +48,9 @@ fastify
 		}
 	})
 
-// Routes
-/* PlopInjection:routeName */
+	// Routes
+	/* PlopInjection:routeName */
+	.register(require('^shell/routes/itstarts'))
 
 fastify.listen(3000, (err, address) => {
 	if (err) {
