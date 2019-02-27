@@ -18,15 +18,10 @@ require('make-promises-safe').abort = true
 
 // TODO investigate 'resolve-from'
 
-const Redis = require('ioredis')
-
-const redis = new Redis(global.config.redis)
+/* MRMInjection:Redis@Step1 */
 const abcache = require('abstract-cache')({
-	useAwait: false, // Required for fastify-server-session to function correctly
-	driver: {
-		name: 'abstract-cache-redis',
-		options: {client: redis}
-	}
+	useAwait: false // Required for fastify-server-session to function correctly
+	/* MRMInjection:Redis@Step2 */
 })
 
 const fastify = require('fastify')({logger: true})
@@ -34,7 +29,7 @@ const deeps = require('deeps')
 
 fastify
 	.register(require('fastify-cookie'))
-	.register(require('fastify-redis'), {client: redis})
+	/* MRMInjection:Redis@Step3 */
 	.register(require('fastify-caching'), {cache: abcache})
 	.register(require('fastify-server-session'), {
 		secretKey: config.session.secret,
