@@ -31,10 +31,7 @@ fastify
 	.register(require('fastify-cookie'))
 	/* MRMInjection:Redis@Step3 */
 	.register(require('fastify-caching'), {cache: abcache})
-	.register(require('fastify-server-session'), {
-		secretKey: config.session.secret,
-		sessionMaxAge: config.session.maxAge
-	})
+	/* MRMInjection:ServerSession@Step1 */
 	.register(require('fastify-sensible'))
 	.register(require('fastify-blipp'))
 	.register(require('fastify-auth'))
@@ -59,5 +56,6 @@ fastify.listen(3000, (err, address) => {
 		throw err
 	}
 
-	fastify.blipp().log.info(`server listening on ${address}`)
+	fastify.blipp()
+	fastify.log.info(`server listening on ${address}`)
 })

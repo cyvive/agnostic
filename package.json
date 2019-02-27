@@ -183,9 +183,7 @@
 		"xo": "0.24.0"
 	},
 	"optionalDependencies": {
-		"fastify-cookie": "2.1.7",
 		"fastify-nodemailer": "3.0.0",
-		"fastify-server-session": "2.0.0",
 		"iron": "5.0.6",
 		"nanoid": "2.0.1",
 		"password-magic": "1.0.0",
