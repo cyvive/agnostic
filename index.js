@@ -25,7 +25,7 @@ const abcache = require('abstract-cache')({
 })
 
 const fastify = require('fastify')({logger: true})
-const deeps = require('deeps')
+const R = require('rabdax')
 
 fastify
 	.register(require('fastify-cookie'))
@@ -36,21 +36,24 @@ fastify
 	.register(require('fastify-blipp'))
 	.register(require('fastify-auth'))
 	.decorate('permittedRouteSession', function(request, reply, done) {
-		const role = deeps.get(request, 'session.role')
+		const role = R.path('session.role', request)
 		if (role) {
-			if (role === 'user') {
-				done()
-			} else {
-				done(fastify.httpErrors.unauthorized('access level too low for route'))
+			switch (role) {
+				case 'user':
+					done()
+					break
+				default:
+					done(
+						fastify.httpErrors.unauthorized('access level too low for route')
+					)
 			}
 		} else {
 			done(fastify.httpErrors.expectationFailed('session expired'))
 		}
 	})
 
-	// Routes
-	/* PlopInjection:routeName */
-	.register(require('^shell/routes/itstarts'))
+// Routes
+/* PlopInjection:routeName */
 
 fastify.listen(3000, (err, address) => {
 	if (err) {

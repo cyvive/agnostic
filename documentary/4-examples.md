@@ -97,7 +97,7 @@ async function checkUserHasCart({_out, _cache, ..._passthrough}) {
   const S = rfdc(_cache.session)
 
   // Check if cart is available in session for the user
-  if (!deeps.get(S, 'cart.cart')) {
+  if (!R.get('cart.cart', S)) {
     // Check if cart is saved for the user
     // Note: dbCart module is in the Shell, this is not a violation of FC/IS
     _cache.dbRecord = await dbCart.getCustomerByUserID(S.user_id)
