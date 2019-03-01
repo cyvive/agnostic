@@ -39,7 +39,6 @@ async function verifyDataMutation({_function, rewire, data, patches}) {
 	debug(delta)
 
 	// Validate business logic / data manipulation by walking the patch
-	// << LOOP BROKEN?
 	for (let i = 0; i < patches.length; i++) {
 		const {patch, msg} = patches[i]
 		equal(delta.shift(), patch, msg)

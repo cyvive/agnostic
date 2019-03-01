@@ -138,4 +138,12 @@ Point 3, is without a doubt the cleanest approach, while still allowing parallel
 
 Finally pushing the external API's to an interface ensures that _stream processing_ is not only possible, but plays nicely with FC/IS
 
+External API's from the template use the newer UPSERT ability, as such for those of you familiar with CRUD, since the introduction of UPSERT, on READ and UPSERT are strictly necessary, as deleting is UPSERT({deleted:true}). DELETE is also available as a convenience wrapper
+
+The interface should be handling the underlying REST verbs
+
+### MicroService Schema
+
+Best explation on usage is direct from the libaries author [Skematic](https://github.com/mekanika/skematic)
+
 %~ -3%

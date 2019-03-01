@@ -23,8 +23,8 @@ The approaches suggested / undertaken are production grade and underpin some of 
   - [Commits](#commits)
 - [Features](#features)
   - [Incremental Functionality](#incremental-functionality)
-    - [MRM (TODO)](#mrm-todo)
-    - [Plop (TODO)](#plop-todo)
+    - [MRM](#mrm)
+    - [Plop](#plop)
   - [Imperative Core / Functional Shell](#imperative-core--functional-shell)
     - [InterFace](#interface)
     - [Shell](#shell)
@@ -37,6 +37,9 @@ The approaches suggested / undertaken are production grade and underpin some of 
   - [Distributed Policy Management](#distributed-policy-management)
   - [Just Enough Testing](#just-enough-testing)
   - [Automatic JSON Schema generation](#automatic-json-schema-generation)
+  - [Compatible Versioning](#compatible-versioning)
+  - [Backwards Compatible API Versioning](#backwards-compatible-api-versioning)
+  - [MicroService Schema](#microservice-schema)
 - [Development](#development)
   - [Prerequisites](#prerequisites)
   - [Installing](#installing)
@@ -52,6 +55,7 @@ The approaches suggested / undertaken are production grade and underpin some of 
   - [Server Sessions](#server-sessions)
   - [Detailed Database Function Example](#detailed-database-function-example)
   - [External API's](#external-apis)
+  - [MicroService Schema](#microservice-schema)
 - [Built With](#built-with)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
@@ -187,7 +191,7 @@ This project strives hard not to be classified as a framework, as such it tries 
 
 Two core tools allow for incremental additions of functionality on an as-needed basis. Similar to a microkernel.
 
-#### MRM (TODO)
+#### MRM
 
 [MRM](https://github.com/sapegin/mrm)'s codemods functionality supplies the ability to load chunks of functionality when necessary by re-writing necessary configuration.
 
@@ -223,7 +227,7 @@ mrm
 └── xo
 ```
 
-#### Plop (TODO)
+#### Plop
 
 Every developer (or team) creates structures and patterns in their code that change and improve over time. In traditional codebases its not easy to locate what files had the current "best practice". Via **Plop** your "best practice" method of creating any given pattern is available in CODE. Turning "the right way" into "the easiest way" to make new files
 
@@ -232,10 +236,13 @@ The `plop` directory is managed as a Git SubModule to allow easier tracking of a
 ```m
 plop
 ├── core
+│   ├── iface
+│   │   └── rest
 │   └── route
 ├── generators
-│   └── new
-│       └── db
+│   ├── new
+│   │   └── db
+│   └── version
 ├── iface
 │   ├── db
 │   │   └── model
@@ -355,6 +362,29 @@ All of these are designed to fail fast
 ### Automatic JSON Schema generation
 
 [To JSON Schema](https://github.com/ruzicka/to-json-schema) allows the developer to provide just the JSON data payload and it will generate the appropriate JSON Schema from it.
+
+### Compatible Versioning
+
+Semantic Versioning is awesome, however most developers still struggle to understand the PATCH part of the versioning standard. For API's consumed by others, [Compatible Versioning](https://github.com/staltz/comver)(ComVer) is a better choice as its backwards compatible with Semantic Versioning and enforces that API versions only change when directed by the underlying data changes
+
+### Backwards Compatible API Versioning
+
+While its technically possible for each Verb in REST to have its own version, it adds unecessary complexity to the API. As such each route shares a ComVer across all Verbs. Internally **Data Pipelines** are utilized for all data mutations, making it possible to serve the following simultaneously:
+
+- **2.x.0**
+- **1.x.0**
+
+Where x is any minor version.
+
+### MicroService Schema
+
+The ability to have a versioned internal schema for a MicroService is not commonly talked about. However its benefits should not be underestimated. At the simplest level, it provides a common structure for a single endpoint / route. Where as when used with extenal databases, public API's or MicroServices it ensures proper ETL compatiblity irrespective of the changes to the external service while maintining backwards compatible versioning.
+
+A MicroService Schema also clarifies the Data Modelling boundaries within a _Suite of MicroServices_, and when _Functions_ are more suitable
+
+Finally by creating the schema all necessary business fields are easily populated with their respective logic irrespective of the data path.
+
+For more examples and usage information see [Skematic](https://github.com/mekanika/skematic)
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-3.svg?sanitize=true"></a></p>
 
@@ -538,6 +568,14 @@ In this situation, several options present themselves.
 Point 3, is without a doubt the cleanest approach, while still allowing parallel API interactions and dependency on external API return data. When used with [pTimeout](https://github.com/sindresorhus/p-timeout) it also ensures data related failure logic can be cleanly captured and executed if necessary.
 
 Finally pushing the external API's to an interface ensures that _stream processing_ is not only possible, but plays nicely with FC/IS
+
+External API's from the template use the newer UPSERT ability, as such for those of you familiar with CRUD, since the introduction of UPSERT, on READ and UPSERT are strictly necessary, as deleting is UPSERT({deleted:true}). DELETE is also available as a convenience wrapper
+
+The interface should be handling the underlying REST verbs
+
+### MicroService Schema
+
+Best explation on usage is direct from the libaries author [Skematic](https://github.com/mekanika/skematic)
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-3.svg?sanitize=true"></a></p>
 

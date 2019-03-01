@@ -25,16 +25,18 @@ const abcache = require('abstract-cache')({
 })
 
 const fastify = require('fastify')({logger: true})
-const R = require('rabdax')
+const R = require('rambdax')
 
 fastify
-	.register(require('fastify-cookie'))
+	/* MRMInjection:ServerSession@Step1 */
 	/* MRMInjection:Redis@Step3 */
 	.register(require('fastify-caching'), {cache: abcache})
-	/* MRMInjection:ServerSession@Step1 */
+	/* MRMInjection:ServerSession@Step2 */
 	.register(require('fastify-sensible'))
 	.register(require('fastify-blipp'))
 	.register(require('fastify-auth'))
+/*
+ * Temporarily disabled as part of injecting Auth functionality in MRM (although all services want some kind of authentication)
 	.decorate('permittedRouteSession', function(request, reply, done) {
 		const role = R.path('session.role', request)
 		if (role) {
@@ -51,6 +53,7 @@ fastify
 			done(fastify.httpErrors.expectationFailed('session expired'))
 		}
 	})
+	*/
 
 // Routes
 /* PlopInjection:routeName */

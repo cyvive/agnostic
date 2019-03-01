@@ -6,7 +6,7 @@ This project strives hard not to be classified as a framework, as such it tries 
 
 Two core tools allow for incremental additions of functionality on an as-needed basis. Similar to a microkernel.
 
-#### MRM (TODO)
+#### MRM
 
 [MRM](https://github.com/sapegin/mrm)'s codemods functionality supplies the ability to load chunks of functionality when necessary by re-writing necessary configuration.
 
@@ -24,7 +24,7 @@ All currently available MRM tasks are as follows:
 
 %TREE -d -L 1 mrm%
 
-#### Plop (TODO)
+#### Plop
 
 Every developer (or team) creates structures and patterns in their code that change and improve over time. In traditional codebases its not easy to locate what files had the current "best practice". Via **Plop** your "best practice" method of creating any given pattern is available in CODE. Turning "the right way" into "the easiest way" to make new files
 
@@ -143,5 +143,28 @@ All of these are designed to fail fast
 ### Automatic JSON Schema generation
 
 [To JSON Schema](https://github.com/ruzicka/to-json-schema) allows the developer to provide just the JSON data payload and it will generate the appropriate JSON Schema from it.
+
+### Compatible Versioning
+
+Semantic Versioning is awesome, however most developers still struggle to understand the PATCH part of the versioning standard. For API's consumed by others, [Compatible Versioning](https://github.com/staltz/comver)(ComVer) is a better choice as its backwards compatible with Semantic Versioning and enforces that API versions only change when directed by the underlying data changes
+
+### Backwards Compatible API Versioning
+
+While its technically possible for each Verb in REST to have its own version, it adds unecessary complexity to the API. As such each route shares a ComVer across all Verbs. Internally **Data Pipelines** are utilized for all data mutations, making it possible to serve the following simultaneously:
+
+- **2.x.0**
+- **1.x.0**
+
+Where x is any minor version.
+
+### MicroService Schema
+
+The ability to have a versioned internal schema for a MicroService is not commonly talked about. However its benefits should not be underestimated. At the simplest level, it provides a common structure for a single endpoint / route. Where as when used with extenal databases, public API's or MicroServices it ensures proper ETL compatiblity irrespective of the changes to the external service while maintining backwards compatible versioning.
+
+A MicroService Schema also clarifies the Data Modelling boundaries within a _Suite of MicroServices_, and when _Functions_ are more suitable
+
+Finally by creating the schema all necessary business fields are easily populated with their respective logic irrespective of the data path.
+
+For more examples and usage information see [Skematic](https://github.com/mekanika/skematic)
 
 %~ -3%
