@@ -91,6 +91,7 @@
 			"import/no-unassigned-import": "off",
 			"import/no-unresolved": "off",
 			"import/order": "off",
+			"no-warning-comments": "off",
 			"operator-linebreak": "off"
 		},
 		"semicolon": false

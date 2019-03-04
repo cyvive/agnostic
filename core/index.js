@@ -20,10 +20,11 @@ function chain(q, fn) {
 	return q.then(fn)
 }
 
-// TODO wire this logging up
+/* TODO wire this logging up
 function RemoteLogConstructed(level) {
 	this.level = level
 	this.log = msg => console[this.level](msg)
 }
+*/
 
 module.exports = {pPipe, remotelog}

@@ -1,7 +1,7 @@
 const R = require('rambdax')
 const Skematic = require('skematic')
-const latestSemVer = require('latest-semver')
 const compareVersions = require('semver-compare')
+const latestSemVer = require('latest-semver')
 
 // NOTE: https://github.com/mekanika/skematic for detailed information about how to use
 
@@ -27,6 +27,7 @@ function highestCompatible({direction, version}) {
 }
 
 async function result({version, data, direction}) {
+	const createMapper = require('map-factory')
 	const mapper = createMapper()
 	const compatibleVersion = highestCompatible({direction, version})
 	R.map(
