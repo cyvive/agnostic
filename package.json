@@ -96,11 +96,13 @@
 		"semicolon": false
 	},
 	"dependencies": {
+		"@stamp/it": "1.1.0",
 		"abstract-cache": "1.0.1",
 		"ajv": "6.9.2",
 		"authenticator": "1.1.5",
 		"await-result": "2.2.1",
 		"casbin": "2.0.1",
+		"compare-versions": "3.4.0",
 		"config": "3.0.1",
 		"cuid": "2.1.6",
 		"data.maybe": "1.2.3",

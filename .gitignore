@@ -17,5 +17,5 @@ coverage/
 .nixconfig/
 *.swp
 iface/
-core/
+core/routes/
 shell/

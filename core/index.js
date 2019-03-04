@@ -16,7 +16,7 @@ function pPipe(...fns) {
 }
 
 function chain(q, fn) {
-	/* eslint-disable promise/prefer-await-to-then */
+	/* eslint promise/prefer-await-to-then: 0 */
 	return q.then(fn)
 }
 

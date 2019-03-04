@@ -20,11 +20,14 @@
 	"discard": [
 		".documentary",
 		".gitignore",
+		".gitmodules",
 		".nyc_output",
 		"README.md",
 		"container",
+		"mrm",
 		"node_modules",
+		"plop",
 		"pollen-package.json"
 	],
-	"complete": "git init {{ name }}; cd {{ name }}; git submodule add -b master https://github.com/sotekton/agnostic-mrm.git mrm; git submodule add -b master https://github.com/sotekton/agnostic-container-build.git container; git submodule add -b master https://github.com/sotekton/agnostic-plop.git container; git submodule init; git submodule update"
+	"complete": "git init {{ name }}; cd {{ name }}; git submodule add -b master https://github.com/sotekton/agnostic-mrm.git mrm; git submodule add -b master https://github.com/sotekton/agnostic-container-build.git container; git submodule add -b master https://github.com/sotekton/agnostic-plop.git plop; git submodule init; git submodule update"
 }
