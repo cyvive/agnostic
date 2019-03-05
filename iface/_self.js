@@ -39,7 +39,7 @@ async function result({version, data, direction}) {
 
 module.exports = {
 	_selfHelp: {versionList, highestCompatible, result},
-	schema: ({version}) => {
+	schema: ({version} = {}) => {
 		const _selfLatest = R.defaultTo(
 			latestSemVer(R.keys(_selfVersions)),
 			version
