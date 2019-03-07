@@ -125,7 +125,7 @@ This is a [Nodejs](https://nodejs.org/en/) project, and while its possible to ru
 curl https://nixos.org/nix/install | sh
 ```
 
-NIX is tightly integrated into this project, running `npm shell` or `npm shell:prod` (provided NIX is installed) will provide you with a clean development / production like environment.
+NIX is tightly integrated into this project, running `npm run shell` or `npm run shell:prod` (provided NIX is installed) will provide you with a clean development / production like environment.
 
 Should you need additional packages, there is no need to install them in the parent operating system, as nix is the best re-invention of package management available today:
 
