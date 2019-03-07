@@ -21,7 +21,7 @@
 		"format:xo": "xo ./**/*.js",
 		"prestart:production": "run-tests '{,!(node_modules|plop)/**/}*.?(sanity|api).js' | tap-min",
 		"plop": "sh -c 'redrun plop:$0 -- $@'",
-		"plop:route": "plop --plopfile plop/plopfiles/route.js && redrun postplop",
+		"plop:new": "plop --plopfile plop/plopfiles/new.js && redrun postplop",
 		"plop:version": "plop --plopfile plop/plopfiles/version.js && redrun postplop",
 		"ploprun": "sh -c 'plop --plopfile plopfile-$0.js $@'",
 		"postplop": "echo \"applying prettier to standardize formatting\" && prettier --write '{,!(node_modules|plop|mrm|container)/**/}*.js'",

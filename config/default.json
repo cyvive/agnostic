@@ -1,5 +1,8 @@
 {
 	"authenticator": "",
-	"versions": {"routes": {}, "schemas": {"_self": "0.1.0"}},
-	"rest": {}
+	"versions": {
+		"rests": {},
+		"routes": {},
+		"schemas": {"_self": "0.1.0"}
+	}
 }

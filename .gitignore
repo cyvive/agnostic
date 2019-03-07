@@ -18,4 +18,5 @@ coverage/
 *.swp
 iface/
 core/routes/
+core/rests/
 shell/
