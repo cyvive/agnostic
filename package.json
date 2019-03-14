@@ -8,6 +8,10 @@
 	"files": [
 		"index.js"
 	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/sotekton/agnostic.git"
+	},
 	"main": "index.js",
 	"scripts": {
 		"codecov:check": "nyc --per-file check-coverage --statements=90 --lines=90 --functions=90",
@@ -102,11 +106,9 @@
 		"ajv": "6.9.2",
 		"authenticator": "1.1.5",
 		"await-result": "2.2.1",
-		"casbin": "2.0.1",
 		"compare-versions": "3.4.0",
 		"config": "3.0.1",
 		"cuid": "2.1.6",
-		"data.maybe": "1.2.3",
 		"dayjs": "1.8.8",
 		"emittery": "0.4.1",
 		"fastify": "1.14.1",
